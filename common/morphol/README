@@ -1,0 +1,33 @@
+Morphology files for Globus Pallidus neuron model
+
+Edgerton JR, Hanson JE, Gunay C, Jaeger D (2010). Dendritic sodium channels 
+    regulate network integration in globus pallidus neurons: a modeling study. 
+    J Neurosci 30: 15146-59.
+
+See also:
+
+Schultheiss NW, Edgerton JR, Jaeger D (2010). Phase response curve analysis 
+    of a full morphological globus pallidus neuron model reveals distinct 
+    perisomatic and dendritic modes of synaptic integration. 
+    J Neurosci 30: 2767:82.
+
+Gunay C, Edgerton JR, Jaeger D (2008). Channel density distributions explain 
+    spiking variability in the globus pallidus: a combined physiology and 
+    computer simulation database approach. J Neurosci 28: 7476-91.
+
+Hanson JE, Smith Y, Jaeger D (2004). Sodium channels and dendritic spike 
+    initiation at excitatory synapses in globus pallidus neurons. 
+    J Neurosci 24: 329-40.
+
+Files:
+
+GP1.p: 
+    Neurolucida morphology file in GENESIS format
+GP1allcompnames.asc: 
+    ordered text list of all compartment names
+GP1dendritenames.asc: 
+    ordered text list of all dendritic compartment names
+GP1_somaGeoDist_dendcompts.asc: 
+    list of linear distances (in microns) from each dendritic compartment 
+    to the soma (same order as GP1dendritenames.asc)
+

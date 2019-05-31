@@ -1,0 +1,97 @@
+Instructions for running simulations with the set of GP neuron models from
+Edgerton JR, Hanson JE, Gunay C, Jaeger D (2010). Dendritic sodium channels 
+regulate network integration in globus pallidus neurons: a modeling study. 
+J Neurosci 30: 15146-59.
+
+DIRECTORY STRUCTURE:
+
+  common: contains the model description files and some utility functions for
+    setting up a simulation.
+
+    common/biophysics: ion channel, synapse and passive biophysics descriptions
+    common/morphol: cell morphology descriptions
+    common/library: scripts to create a library of template objects during the
+        simulation
+    common/functions: various implementation scripts for the simulations
+    common/comptlists: lists of model compartments for various purposes such
+        as where to put synapses, which compartments to save outputs from, etc.
+
+  shellscripts: linux shell scripts to help run the simulations
+
+  run_example: scripts to run two different types of example simulations
+
+    run_example/run_slice.g: example simulations with no synaptic inputs but
+        with somatic current injections like those often used in slice
+        experiments.
+
+    run_example/run_vivo.g: example simulations with synaptic inputs active
+        throughout the dendritic tree. Synapses have random timing in these
+        simulations.
+
+  matlab_reader: a plugin written in C that enables you to load the
+        output data into Matlab.
+        --> compile using the Matlab mex compiler in a Linux shell:
+          > mex -output readgenesis readgenesis.c
+     
+
+TUTORIAL:
+
+  First, you must have genesis 2.3 installed on your machine.
+
+  Download and unzip the model files. 
+
+  Navigate to the run_example directory.
+
+  To run the "slice" simulations, execute the following commands:
+
+    > ../shellscripts/create_perlhash_param_db pars_slice.par
+
+    > ../shellscripts/runbatch_local_perlhash.sh run_slice_example.g pars_slice.par 1 1
+
+        This command runs a simulation using the first row of parameters listed
+            in the pars_slice.par file. If it runs without any problem you
+            should see a data file appear in the data_slice directory named
+            1_mtype_1_scaleMeth_0_sclTau_-200_pAinjected_slice_example_run_v.bin
+
+    > ../shellscripts/runbatch_local_perlhash.sh run_slice_example.g pars_slice.par 2 72
+
+        This command runs each of the remaining 71 parameter combinations in the
+            pars_slice.par file sequentially. Once complete, there should be
+            72 data files in the data_slice directory, one for each parameter
+            set.
+
+
+  To run the "vivo" simulations, simply repeat the same steps with the vivo
+        example scripts.
+
+    > ../shellscripts/create_perlhash_param_db pars_vivo.par
+
+    > ../shellscripts/runbatch_local_perlhash.sh run_vivo_example.g pars_vivo.par 1 1
+
+    > ../shellscripts/runbatch_local_perlhash.sh run_vivo_example.g pars_vivo.par 2 18
+
+
+  To visualize the data in Matlab: 
+    First compile the reader:
+      > mex -output readgenesis readgenesis.c
+        
+    Add the reader directory to your Matlab path, then run the following
+        commands from within Matlab:
+
+    % Load the data into the workspace
+    >> tdat = readgenesis('data_slice/1_mtype_1_scaleMeth_0_sclTau_-200_pAinjected_slice_example_run_v.bin', 1);
+
+    % Change the y-scale from volts to millivolts
+    >> tdat = tdat .* 1e3;
+
+    % Plot the data
+    >> figure; plot([1e-4:1e-4:5], tdat);
+
+
+Submitted by: 
+    Jeremy R. Edgerton < jeremy.edgerton AT gmail.com >, 12/2010
+
+Co-authors:
+    Jesse E. Hanson < hanson.jesse AT gene.com >
+    Cengiz Gunay < cgunay AT emory.edu >
+    Dieter Jaeger < djaeger AT emory.edu >
